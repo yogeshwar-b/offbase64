@@ -31,10 +31,72 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Scaffold(
+          appBar: AppBar(
+            title: const Text('OffBase64'),
+          ),
+          body: const MainPage()),
     );
   }
 }
+
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        EncodeBox(),
+        EncodeBox()
+      ],
+    );
+  }
+}
+
+
+class EncodeBox extends StatefulWidget {
+  const EncodeBox({super.key});
+
+  @override
+  State<EncodeBox> createState() => _EncodeBoxState();
+}
+
+class _EncodeBoxState extends State<EncodeBox> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(30),
+      // margin: const EdgeInsets.all(30),
+      alignment: Alignment.center,
+      // color: Colors.blueGrey,
+      child:const Material(
+        borderRadius:  BorderRadius.all(
+            Radius.circular(90.0)
+        ),
+        elevation: 20.0,
+        shadowColor: Colors.grey,
+        child: TextField(
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(
+                Radius.circular(90.0)
+              ),
+            ),
+            hintText: 'Encode text here',
+            filled: true,
+            // fillColor: Colors.green,
+          ),
+
+        ),
+      ),
+    );
+  }
+}
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
