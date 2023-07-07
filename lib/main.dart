@@ -33,7 +33,9 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('OffBase64'),
+            title:const Center(
+              child: Text('OffBase64'),
+            ),
           ),
           body: const MainPage()),
     );
@@ -47,56 +49,55 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        EncodeBox(),
-        EncodeBox()
-      ],
+        Expanded(child: DataBox(
+        htext: "Encode Text here"
+      )),
+        Expanded(child: DataBox(
+          htext: "Decode Text here"
+      ))],
     );
   }
 }
 
-
-class EncodeBox extends StatefulWidget {
-  const EncodeBox({super.key});
-
+class DataBox extends StatefulWidget {
+  final String htext;
+  const DataBox({super.key, required this.htext});
   @override
-  State<EncodeBox> createState() => _EncodeBoxState();
+  State<DataBox> createState() => _DataBoxState();
 }
 
-class _EncodeBoxState extends State<EncodeBox> {
+class _DataBoxState extends State<DataBox> {
   @override
   Widget build(BuildContext context) {
+    //TODO stack copy and paste buttons on the right bottom.
+    //TODO add state handling method which on change of character updates the other DataBox
     return Container(
       padding: const EdgeInsets.all(30),
-      // margin: const EdgeInsets.all(30),
       alignment: Alignment.center,
-      // color: Colors.blueGrey,
-      child:const Material(
-        borderRadius:  BorderRadius.all(
-            Radius.circular(90.0)
-        ),
+      child: Material(
+        borderRadius: const BorderRadius.all(Radius.circular(30.0)),
         elevation: 20.0,
         shadowColor: Colors.grey,
         child: TextField(
+
+          keyboardType: TextInputType.multiline,
+          maxLines: 6,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
+            border: const OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.all(
-                Radius.circular(90.0)
-              ),
+              borderRadius: BorderRadius.all(Radius.circular(30.0)),
             ),
-            hintText: 'Encode text here',
+            hintText: widget.htext,
             filled: true,
             // fillColor: Colors.green,
           ),
-
         ),
       ),
     );
   }
 }
-
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
