@@ -75,9 +75,7 @@ class _DataBoxState extends State<DataBox> {
 
   String textdata="";
   bool isEncode=true;
-  void _updateDataBox(){
-    print('got ${textdata} from ${widget.key}');
-  }
+
   @override
   void initState(){
     textdata=widget.htext;
@@ -86,7 +84,6 @@ class _DataBoxState extends State<DataBox> {
       isEncode=false;
     }
     super.initState();
-    textcontroller.addListener(_updateDataBox);
   }
   @override
   void dispose()
@@ -96,13 +93,23 @@ class _DataBoxState extends State<DataBox> {
   }
 
   void updatetext() {
-    if (isEncode) {
-      widget.desttxtcontrolr.text = base64.encode(utf8.encode( widget.txtcontrolr.text ));
+    try {
+      Codec<String, String> stringToBase64 = utf8.fuse(base64);
+      if (isEncode) {
+        widget.desttxtcontrolr.text =stringToBase64.encode( widget.txtcontrolr.text );
+      }
+      else{
+
+        widget.desttxtcontrolr.text = stringToBase64.decode( widget.txtcontrolr.text );;
+      }
+    } on Exception catch (e) {
+      widget.desttxtcontrolr.text = "Not valid text";
+
     }
-    else{
-      //TODO decode not working
-      widget.desttxtcontrolr.text = base64.decode(utf8.encode( widget.txtcontrolr.text ) as String) as String;
-    }
+    catch (error) {
+      widget.desttxtcontrolr.text = "Not valid text";
+  }
+
   }
 
 
