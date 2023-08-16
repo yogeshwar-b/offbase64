@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,24 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'OffBase64',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: const ColorScheme.dark(),
         useMaterial3: true,
       ),
       home: Scaffold(
@@ -47,32 +34,81 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final encodetxtcontroller= TextEditingController();
+    final decodetxtcontroller=  TextEditingController();
+
+
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(child: DataBox(
-        htext: "Encode Text here"
+        htext: "Encode Text here",
+          key: Key('Encode'),
+           txtcontrolr: encodetxtcontroller,
+          desttxtcontrolr: decodetxtcontroller,
       )),
         Expanded(child: DataBox(
-          htext: "Decode Text here"
+          htext: "Decode Text here",
+          key: Key('Decode'),
+            txtcontrolr: decodetxtcontroller,
+          desttxtcontrolr: encodetxtcontroller,
       ))],
     );
   }
 }
 
 class DataBox extends StatefulWidget {
+
+  const DataBox({super.key, required this.htext, required this.txtcontrolr,required this.desttxtcontrolr});
   final String htext;
-  const DataBox({super.key, required this.htext});
+  final TextEditingController txtcontrolr;
+  final TextEditingController desttxtcontrolr;
+
   @override
   State<DataBox> createState() => _DataBoxState();
+
+
 }
 
 class _DataBoxState extends State<DataBox> {
+
+  String textdata="";
+  bool isEncode=true;
+  void _updateDataBox(){
+    print('got ${textdata} from ${widget.key}');
+  }
+  @override
+  void initState(){
+    textdata=widget.htext;
+    final textcontroller=widget.txtcontrolr;
+    if(widget.key==Key("Decode")){
+      isEncode=false;
+    }
+    super.initState();
+    textcontroller.addListener(_updateDataBox);
+  }
+  @override
+  void dispose()
+  {
+    // textcontroller.dispose();
+    super.dispose();
+  }
+
+  void updatetext() {
+    if (isEncode) {
+      widget.desttxtcontrolr.text = base64.encode(utf8.encode( widget.txtcontrolr.text ));
+    }
+    else{
+      //TODO decode not working
+      widget.desttxtcontrolr.text = base64.decode(utf8.encode( widget.txtcontrolr.text ) as String) as String;
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     //TODO stack copy and paste buttons on the right bottom.
-    //TODO add state handling method which on change of character updates the other DataBox
     return Container(
       padding: const EdgeInsets.all(30),
       alignment: Alignment.center,
@@ -80,18 +116,30 @@ class _DataBoxState extends State<DataBox> {
         borderRadius: const BorderRadius.all(Radius.circular(30.0)),
         elevation: 20.0,
         shadowColor: Colors.grey,
-        child: TextField(
-
-          keyboardType: TextInputType.multiline,
-          maxLines: 6,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.all(Radius.circular(30.0)),
+        child: Focus(
+          onFocusChange: (hasFocus) {
+            if(hasFocus) {
+              // print('focus at + $textdata');
+                  // widget.desttxtcontrolr.removeListener(updatetext);
+              widget.txtcontrolr.addListener(updatetext);
+            }
+            else{
+              widget.txtcontrolr.removeListener(updatetext);
+            }
+          },
+          child: TextField(
+            controller: widget.txtcontrolr,
+            keyboardType: TextInputType.multiline,
+            maxLines: 6,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+              ),
+              hintText: textdata,
+              filled: true,
+              // fillColor: Colors.green,
             ),
-            hintText: widget.htext,
-            filled: true,
-            // fillColor: Colors.green,
           ),
         ),
       ),
