@@ -2,4 +2,4 @@
 
 Fully Offline Base 64 Text conversion app developed in Flutter.
 
-![Preview](https://github.com/yogeshwar-b/Counter/assets/40350972/c5d9b625-bcd1-4bf8-a81c-b25f24f4d990)
+![Preview](https://github.com/yogeshwar-b/offbase64/assets/40350972/30ef438c-9bb1-4433-8b52-d666ac243512)
