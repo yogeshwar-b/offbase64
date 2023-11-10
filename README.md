@@ -1,16 +1,5 @@
 # offbase64
 
-Fully Offline Base 64 Text conversion app.
+Fully Offline Base 64 Text conversion app developed in Flutter.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Preview](https://github.com/yogeshwar-b/offbase64/assets/40350972/30ef438c-9bb1-4433-8b52-d666ac243512)
